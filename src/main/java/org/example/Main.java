@@ -1,5 +1,12 @@
 package org.example;
-import java.util.Set;
+import exceptions.CircleException;
+import exceptions.RectException;
+import geometry2d.Circle;
+import geometry2d.Rectangle;
+import geometry2d.Figure;
+import geometry3d.Cylinder;
+
+import java.awt.*;
 import java.util.*;
 
 public class Main {
@@ -168,7 +175,51 @@ public class Main {
         System.out.println("tb2[n-1][m-1] = " + tb2.getValue(n1-1, m1-1));
         System.out.println(tb2);
         System.out.println("The average value = " + tb2.average());
+        System.out.println("---tb3 = tb1*tb2---");
+        //Table tb3 = tb1.calculate(tb2, '+');
         System.out.println("-------------------------Task 6----------------------------------");
-    Fi
+        Figure[] figures = new Figure[6];
+        for (int i = 0; i < 6; i++)
+        {
+            if (i % 2 == 0)
+            {
+                try {
+                    figures[i] = new Rectangle(i+6, i+7);
+                } catch (RectException e) {
+                    System.out.println(e.getMessage());
+                }
+            }
+            else
+            {
+                try {
+                    figures[i] = new Circle(i+9);
+                } catch (CircleException e) {
+                    System.out.println(e.getMessage());
+                }
+            }
+            System.out.println("--------------------------------------------------------------");
+            if (figures[i] != null)
+                System.out.println(figures[i].toString());
+            System.out.println("--------------------------------------------------------------");
+        }
+        Cylinder cyl1 = null;
+        try {
+            cyl1 = new Cylinder(new Circle(11.6), 18.7);
+            System.out.println("--------------------------------------------------------------");
+            System.out.println(cyl1.toString());
+            System.out.println("--------------------------------------------------------------");
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+        if (cyl1 != null)
+        try {
+            cyl1.setFooting(new Rectangle(11.7, 18.3));
+            cyl1.setHeight(11.7);
+            System.out.println("--------------------------------------------------------------");
+            System.out.println(cyl1.toString());
+            System.out.println("--------------------------------------------------------------");
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
     }
 }

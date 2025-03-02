@@ -1,11 +1,17 @@
 package geometry2d;
 
-class Rectangle implements Figure{
+import exceptions.RectException;
+
+public class Rectangle implements Figure{
     private double length;
     private double width;
 
-    public Rectangle(double length, double width) {
+    public Rectangle(double length, double width) throws RectException {
+        if (length <= 0)
+            throw new RectException("Length of Rectangle must be positive");
         this.length = length;
+        if (width <= 0)
+            throw new RectException("Width of Rectangle must be positive");
         this.width = width;
     }
 
@@ -13,7 +19,9 @@ class Rectangle implements Figure{
         return length;
     }
 
-    public void setLength(double length) {
+    public void setLength(double length) throws RectException {
+        if (length <= 0)
+            throw new RectException("Length of Rectangle must be positive");
         this.length = length;
     }
 
@@ -21,7 +29,9 @@ class Rectangle implements Figure{
         return width;
     }
 
-    public void setWidth(double width) {
+    public void setWidth(double width) throws RectException{
+        if (width <= 0)
+            throw new RectException("Width of Rectangle must be positive");
         this.width = width;
     }
 

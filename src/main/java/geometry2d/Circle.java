@@ -1,9 +1,13 @@
 package geometry2d;
+import exceptions.CircleException;
+
 
 public class Circle implements Figure {
     private double radius;
 
-    public Circle(double radius) {
+    public Circle(double radius) throws CircleException{
+        if (radius <= 0)
+            throw new CircleException("Radius of Circle must be positive");
         this.radius = radius;
     }
 
@@ -11,7 +15,9 @@ public class Circle implements Figure {
         return radius;
     }
 
-    public void setRadius(double radius) {
+    public void setRadius(double radius) throws CircleException{
+        if (radius <= 0)
+            throw new CircleException("Radius of Circle must be positive");
         this.radius = radius;
     }
 
