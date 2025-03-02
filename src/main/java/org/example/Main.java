@@ -11,7 +11,7 @@ import java.util.*;
 
 public class Main {
     public static void main(String[] args) {
-        /**System.out.println("-------------------------Task 1----------------------------------");
+        System.out.println("-------------------------Task 1----------------------------------");
         Button button = null;
         try {
             button = new Button(17);
@@ -145,8 +145,7 @@ public class Main {
         oes.addNumber(412);
         oes.delete(new HashSet<Integer>(Arrays.asList(11,816,412)));
         oes.odd();
-        oes.even();**/
-        Scanner scanner = new Scanner(System.in);
+        oes.even();
         System.out.println("-------------------------Task 5----------------------------------");
         System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!Table 1!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
         System.out.print("Input count rows in table 1: ");
