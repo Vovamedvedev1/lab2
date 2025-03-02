@@ -11,7 +11,7 @@ import java.util.*;
 
 public class Main {
     public static void main(String[] args) {
-        System.out.println("-------------------------Task 1----------------------------------");
+        /**System.out.println("-------------------------Task 1----------------------------------");
         Button button = null;
         try {
             button = new Button(17);
@@ -145,7 +145,8 @@ public class Main {
         oes.addNumber(412);
         oes.delete(new HashSet<Integer>(Arrays.asList(11,816,412)));
         oes.odd();
-        oes.even();
+        oes.even();**/
+        Scanner scanner = new Scanner(System.in);
         System.out.println("-------------------------Task 5----------------------------------");
         System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!Table 1!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
         System.out.print("Input count rows in table 1: ");
@@ -155,7 +156,7 @@ public class Main {
         Table tb1 = new Table(n, m);
         for (int i=0; i < n; i++)
             for (int j=0; j < m; j++)
-                tb1.setValue(i,j,scanner.nextInt());
+                tb1.setValue(i,j,scanner.nextDouble());
         System.out.println("Count rows: " + tb1.rows());
         System.out.println("Count cols: " + tb1.cols());
         System.out.println("tb1[n-1][m-1] = " + tb1.getValue(n-1, m-1));
@@ -176,7 +177,32 @@ public class Main {
         System.out.println(tb2);
         System.out.println("The average value = " + tb2.average());
         System.out.println("---tb3 = tb1*tb2---");
-        //Table tb3 = tb1.calculate(tb2, '+');
+        Table tb3 = null;
+        try {
+            tb3 = tb1.calculate(tb2, '*');
+            System.out.println(tb3.toString());
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+        try {
+            System.out.println("det(tb3) = " + tb3.getDeterminant());
+        } catch (Exception e)
+        {
+            System.out.println(e.getMessage());
+        }
+        try {
+            System.out.println("inv(tb3) = ");
+            Table tb_3 = tb3.invert();
+            System.out.println(tb_3.toString());
+            Table check = tb3.calculate(tb_3, '*');
+            System.out.println("tb3*inv(tb3) = ");
+            System.out.println(check.toString());
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+
+
+
         System.out.println("-------------------------Task 6----------------------------------");
         Figure[] figures = new Figure[6];
         for (int i = 0; i < 6; i++)

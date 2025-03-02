@@ -6,10 +6,10 @@ public class Table {
     private double[][] matrix = null;
 
     public Table(int rows, int cols) {
-        this.cols = cols;
         this.rows = rows;
+        this.cols = cols;
         matrix = new double[rows][cols];
-        for (int i = 0; i < cols; i++)
+        for (int i = 0; i < rows; i++)
             for (int j = 0; j < cols; j++)
                 matrix[i][j] = 0;
     }
@@ -59,7 +59,6 @@ public class Table {
         if (this.rows != this.cols)
             throw new Exception("Table show rows = cols");
         double[][] a = new double[rows][rows];
-        p = new int[rows][rows];
         for (int i = 0; i < rows; i++) {
             for (int j = 0; j < rows; j++) {
                 a[i][j] = (double)matrix[i][j];
@@ -96,8 +95,6 @@ public class Table {
                     a[j][k] -= factor * a[i][k];
             }
         }
-        L = new double[rows][rows];
-        U = new double[rows][rows];
         for (int i = 0; i < rows; i++) {
             for (int j = 0; j < rows; j++) {
                 if (i > j)
@@ -115,8 +112,9 @@ public class Table {
     public double getDeterminant() throws Exception {
         if (this.rows != this.cols)
             throw new Exception("Table show rows = cols");
-        double[][] L = null, U = null;
-        int[][] p = null;
+        double[][] L = new double[rows][rows];
+        double[][] U = new double[rows][rows];
+        int[][] p = new int[rows][rows];
         int[] count_permutation = new int[1];
         count_permutation[0] = 0;
         getDecomposition(L, U, p, count_permutation);
@@ -129,8 +127,9 @@ public class Table {
     public Table calcSLAU(Table other) throws Exception {
         if (this.rows != other.rows)
             throw new Exception("calcSLAYError: A.rows == b.rows");
-        double[][] L = null, U = null;
-        int[][] p = null;
+        double[][] L = new double[rows][rows];
+        double[][] U = new double[rows][rows];
+        int[][] p = new int[rows][rows];
         int[] count_permutation = new int[1];
         count_permutation[0] = 0;
         getDecomposition(L, U, p, count_permutation);
@@ -183,4 +182,46 @@ public class Table {
         return this.calcSLAU(echelon);
     }
 
+    public Table calculate(Table other, char operator) throws Exception {
+        Table res = null;
+        switch (operator) {
+            case '+':
+                if ((this.rows == other.rows) && (this.cols == other.cols)) {
+                    res = new Table(this.rows, this.cols);
+                    for (int i = 0; i < this.rows; i++)
+                        for (int j = 0; j < this.cols; j++)
+                            res.setValue(i, j, this.getValue(i, j) + other.getValue(i, j));
+                } else {
+                    throw new Exception("When adding up, the number of rows and columns in the matrix must be the same.");
+                }
+                break;
+            case '-':
+                if ((this.rows == other.rows) && (this.cols == other.cols)) {
+                    res = new Table(this.rows, this.cols);
+                    for (int i = 0; i < this.rows; i++)
+                        for (int j = 0; j < this.cols; j++)
+                            res.setValue(i, j, this.getValue(i, j) - other.getValue(i, j));
+                } else {
+                    throw new Exception("When subtracting, the number of rows and columns in the matrix must be the same.");
+                }
+                break;
+            case '*':
+                double temp = 0;
+                if (this.cols == other.rows) {
+                    res = new Table(this.rows, other.cols);
+                    for (int i = 0; i < this.rows; i++) {
+                        for (int j = 0; j < other.cols; j++) {
+                            temp = 0;
+                            for (int k = 0; k < this.cols; k++)
+                                temp += this.getValue(i, k) * other.getValue(k, j);
+                            res.setValue(i, j, temp);
+                        }
+                    }
+                } else {
+                    throw new Exception("When multiplying, the number of columns of the first matrix must match the number of rows of the second matrix.");
+                }
+                break;
+        }
+        return res;
+    }
 }
