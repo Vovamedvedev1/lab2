@@ -201,8 +201,6 @@ public class Main {
             System.out.println(e.getMessage());
         }
 
-
-
         System.out.println("-------------------------Task 6----------------------------------");
         Figure[] figures = new Figure[6];
         for (int i = 0; i < 6; i++)

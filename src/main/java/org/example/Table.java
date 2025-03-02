@@ -37,7 +37,7 @@ public class Table {
             for (int j = 0; j < cols; j++) {
                 sb.append(matrix[i][j]);
                 if (j < cols - 1) {
-                    sb.append(" ");
+                    sb.append("\t");
                 }
             }
             sb.append("\n");
@@ -79,14 +79,15 @@ public class Table {
             }
             if (Math.abs(a[leader_index][i]) < Math.pow(10, -15))
                 throw new Exception("The matrix is degenerate");
-            double temp[];
+            double[] temp;
+            int[] temp1;
             if (i != leader_index) {
                 temp = a[i];
                 a[i] = a[leader_index];
                 a[leader_index] =temp;
-                p[i][i] = 0;
-                p[leader_index][i] = 1;
-                count_permutation[0]++;
+                temp1 = p[i];
+                p[i] = p[leader_index];
+                p[leader_index] = temp1;
             }
             for (int j = i + 1; j <rows; j++) {
                 double factor = a[j][i] / a[i][i];
@@ -138,14 +139,13 @@ public class Table {
             for (int i = 0; i < other.rows; i++) {
                 for (int j = 0; j < other.rows; j++) {
                     if (p[i][j] == 1) {
-                        Pb[i][k] = other.matrix[j][k];
+                        Pb[i][k] = other.getValue(j, k);
                         break;
-                    } else
-                        Pb[i][j] = 0;
+                    }
                 }
             }
         }
-        double[][] y = new double[this.cols][other.cols];
+        double[][] y = new double[this.rows][other.cols];
         for (int k = 0; k < other.cols; k++) {
             for (int i = 0; i < other.rows; i++) {
                 y[i][k] = Pb[i][k];
@@ -153,16 +153,13 @@ public class Table {
                     y[i][k] -= L[i][j] * y[j][k];
             }
         }
-        Table x = new Table(this.cols, other.cols);
+        Table x = new Table(this.rows, other.cols);
         for (int k = 0; k < other.cols; k++) {
-            for (int i = other.rows - 1 ; i >= 0; i--) {
-                x.setValue(i, k, y[i][k]);
-                double temp = 0;
-                for (int j = i+1; j < other.cols; j++) {
-                    temp -= U[i][j] * x.getValue(i, k);
-                    x.setValue(i, k, temp);
-                }
-                x.setValue(i, k, 1.0 * x.getValue(i,k)/U[i][i]);
+            for (int i = this.rows - 1 ; i >= 0; i--) {
+                double temp = y[i][k];
+                for (int j = i+1; j < this.cols; j++)
+                    temp -= U[i][j] * x.getValue(j, k);
+                x.setValue(i, k, 1.0 * temp / U[i][i]);
             }
         }
         return x;
